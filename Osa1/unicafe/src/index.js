@@ -11,8 +11,24 @@ const Button = ({text, handleClick}) => {
   )
 }
 
-const Statistics = ({text,stats, end}) => <div>{text} {stats} {end}</div>
+const Statistics = ({good,neutral,bad,all,average,positive}) => {
+  if(all !== 0){
+  return (
+    <>
+    <StatisticsLine text='good:' stats={good}/>
+    <StatisticsLine text='neutral:' stats={neutral}/>
+    <StatisticsLine text='bad:' stats={bad}/>
+    <StatisticsLine text='all:' stats={all} />
+    <StatisticsLine text='average:' stats={average} /> 
+    <StatisticsLine text='positive:' stats={positive} end='%'/>
+    </>
+  )
+  } else {
+    return <div>No feedback given</div>
+  }
+}
 
+const StatisticsLine = ({text,stats, end}) => <div>{text} {stats} {end}</div>
 
 const App = () => {
 
@@ -51,7 +67,7 @@ const App = () => {
   }
   const countPositive = () => {
     if(all !== 0){ 
-      setPositive(good/all)
+      setPositive((good/all)*100)
     }
   }
 
@@ -59,8 +75,6 @@ const App = () => {
     countAverage()
     countPositive()
   })
-
-  
 
   return (
     <>
@@ -72,12 +86,9 @@ const App = () => {
       
       <Header text='Statistics'/>
 
-      <Statistics text='good:' stats={good}/>
-      <Statistics text='neutral:' stats={neutral}/>
-      <Statistics text='bad:' stats={bad}/>
-      <Statistics text='all:' stats={all} />
-      <Statistics text='average:' stats={average} /> 
-      <Statistics text='positive:' stats={positive} end='%'/>
+      <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} />
+
+
 
     </>
   )

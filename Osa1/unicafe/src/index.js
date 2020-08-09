@@ -11,7 +11,7 @@ const Button = ({text, handleClick}) => {
   )
 }
 
-const Stats = ({text,stats, end}) => <div>{text} {stats} {end}</div>
+const Statistics = ({text,stats, end}) => <div>{text} {stats} {end}</div>
 
 
 const App = () => {
@@ -72,12 +72,12 @@ const App = () => {
       
       <Header text='Statistics'/>
 
-      <Stats text='good:' stats={good}/>
-      <Stats text='neutral:' stats={neutral}/>
-      <Stats text='bad:' stats={bad}/>
-      <Stats text='all:' stats={all} />
-      <Stats text='average:' stats={average} /> 
-      <Stats text='positive:' stats={positive} end='%'/>
+      <Statistics text='good:' stats={good}/>
+      <Statistics text='neutral:' stats={neutral}/>
+      <Statistics text='bad:' stats={bad}/>
+      <Statistics text='all:' stats={all} />
+      <Statistics text='average:' stats={average} /> 
+      <Statistics text='positive:' stats={positive} end='%'/>
 
     </>
   )

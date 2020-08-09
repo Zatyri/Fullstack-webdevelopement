@@ -14,21 +14,30 @@ const Button = ({text, handleClick}) => {
 const Statistics = ({good,neutral,bad,all,average,positive}) => {
   if(all !== 0){
   return (
-    <>
-    <StatisticsLine text='good:' stats={good}/>
-    <StatisticsLine text='neutral:' stats={neutral}/>
-    <StatisticsLine text='bad:' stats={bad}/>
-    <StatisticsLine text='all:' stats={all} />
-    <StatisticsLine text='average:' stats={average} /> 
-    <StatisticsLine text='positive:' stats={positive} end='%'/>
-    </>
+    <table>
+      <tbody>    
+        <StatisticsLine text='good:' stats={good}/>
+        <StatisticsLine text='neutral:' stats={neutral}/>
+        <StatisticsLine text='bad:' stats={bad}/>
+        <StatisticsLine text='all:' stats={all} />
+        <StatisticsLine text='average:' stats={average} /> 
+        <StatisticsLine text='positive:' stats={positive} end='%'/>
+      </tbody>
+    </table>
   )
   } else {
     return <div>No feedback given</div>
   }
 }
 
-const StatisticsLine = ({text,stats, end}) => <div>{text} {stats} {end}</div>
+const StatisticsLine = ({text,stats, end}) => {
+return(
+  <tr>
+    <td>{text}</td> 
+    <td>{stats} {end}</td>
+  </tr>
+)
+}
 
 const App = () => {
 

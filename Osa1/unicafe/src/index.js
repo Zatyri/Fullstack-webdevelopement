@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 
 const Header = ({text}) => <h1>{text}</h1>
@@ -11,7 +11,7 @@ const Button = ({text, handleClick}) => {
   )
 }
 
-const Stats = ({text,stats}) => <div>{text} {stats}</div>
+const Stats = ({text,stats, end}) => <div>{text} {stats} {end}</div>
 
 
 const App = () => {
@@ -19,24 +19,65 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const [all, setAll] = useState(0)
+  const [sum, setSum] = useState(0)
+  const [average, setAverage] = useState(0)
+  const [positive, setPositive] = useState(0)
 
-  const increaseGood = () => setGood(good + 1)
-  const increaseNeutral = () => setNeutral(neutral + 1)
-  const increaseBad = () => setBad(bad + 1)
+  const clickedGood = () => {
+    increaseAll()
+    countSum(1) 
+    increaseGood()
+  }
+  
+  const clickedNeutral = () => {
+    increaseAll()    
+    increaseNeutral()
+  }
+  const clickedBad = () => {
+    increaseAll()
+    countSum(-1)    
+    increaseBad()
+  }
+  const increaseGood = () => setGood(good+1)
+  const increaseNeutral = () => setNeutral(neutral+1)
+  const increaseBad = () => setBad(bad+1)
+  const increaseAll = () => setAll(all + 1)
+  const countSum = (x) => setSum(sum + x)
+  const countAverage = () => {
+    if(all !== 0){      
+      setAverage(sum/(all))
+    }
+  }
+  const countPositive = () => {
+    if(all !== 0){ 
+      setPositive(good/all)
+    }
+  }
+
+  useEffect(()=>{
+    countAverage()
+    countPositive()
+  })
+
+  
 
   return (
     <>
       <Header text='Give feedback'/>
 
-      <Button text='good' handleClick={increaseGood}/> 
-      <Button text='neutral' handleClick={increaseNeutral}/>      
-      <Button text='bad' handleClick={increaseBad}/>      
+      <Button text='good' handleClick={clickedGood}/> 
+      <Button text='neutral' handleClick={clickedNeutral}/>      
+      <Button text='bad' handleClick={clickedBad}/>      
       
       <Header text='Statistics'/>
 
       <Stats text='good:' stats={good}/>
-      <Stats text='netural:' stats={neutral}/>
+      <Stats text='neutral:' stats={neutral}/>
       <Stats text='bad:' stats={bad}/>
+      <Stats text='all:' stats={all} />
+      <Stats text='average:' stats={average} /> 
+      <Stats text='positive:' stats={positive} end='%'/>
 
     </>
   )
@@ -44,5 +85,4 @@ const App = () => {
 
 
 ReactDOM.render(<App />, document.getElementById('root'))
-
 

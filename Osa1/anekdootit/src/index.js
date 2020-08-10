@@ -9,13 +9,8 @@ const DisplayAnecdote = ({anecdote}) => {
   )
 }
 
-const DisplayVotes = ({votes}) => {
-  return (
-  <p>has {votes} votes</p>
-  )
-}
-
-
+const DisplayVotes = ({votes}) => <p>has {votes} votes</p>
+  
 
 
 const App = (props) => {

@@ -1,12 +1,13 @@
 import React from 'react'
 import Header from './Header'
+import Content from './Content'
 
 const Course = (props) => {  
-    console.log(props.course.name)  
+    
     return (
         <>
             <Header headerText={props.course.name} />
-            
+            <Content courses={props.course.parts} />
         </>
     )
 }

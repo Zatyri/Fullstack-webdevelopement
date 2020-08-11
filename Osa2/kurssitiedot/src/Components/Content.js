@@ -6,7 +6,6 @@ const Content = ({courses}) => {
     return (
         <>
             {courses.map(course => <Part key={course.id} name={course.name} num={course.exercises}/>)}
-
         </>
     )
 }

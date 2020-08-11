@@ -1,7 +1,7 @@
 import React from 'react'
 import Part from './Part'
 
-const Content = ({courses}) => {  
+const Content = ({courses}) => {     
    
     return (
         <>

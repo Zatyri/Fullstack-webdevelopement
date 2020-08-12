@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import Header from './Components/Header'
 import NameList from './Components/NameList'
+import Filter from './Components/Filter'
+import PersonForm from './Components/PersonForm';
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -12,6 +14,7 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [searchName, setSearchName] = useState('')
 
   const addName = (event) => {
     event.preventDefault()
@@ -33,23 +36,18 @@ const App = () => {
 
   const handleAddName = (event) => setNewName(event.target.value) 
   const handleAddNumber = (event) => setNewNumber(event.target.value)
+  const handleFilterInput = (event) => {
+    setSearchName(event.target.value)    
+  }
 
   return (
     <div>
       <Header header='Phonebook' />
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleAddName}/>          
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleAddNumber}/>          
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter search={searchName} handleChange={handleFilterInput}/>
+      <Header header='add a new'/>
+      <PersonForm addName={addName} newName={newName} handleAddName={handleAddName} newNumber={newNumber} handleAddNumber={handleAddNumber}/>
       <Header header='Numbers' />
-      <NameList persons={persons} />
+      <NameList persons={persons} search={searchName}/>
     </div>
   )
 

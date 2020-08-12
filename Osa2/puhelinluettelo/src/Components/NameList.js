@@ -1,9 +1,16 @@
 import React from 'react'
 
-const NameList = ({persons}) => {
+const NameList = ({persons, search}) => {
+    const filteredPersons = persons.filter(person => {
+        const name = person.name.toLowerCase()
+        const nameToMatch = search.toLowerCase()        
+        return name.includes(nameToMatch)
+        
+    })    
+    
     return (
         <>
-            {persons.map(person =>
+            {filteredPersons.map(person =>
                 <p key={person.name}>{person.name}: {person.number}</p>
             )}
         </>

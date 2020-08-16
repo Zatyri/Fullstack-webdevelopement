@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios'
 import Header from './Components/Header'
 import NameList from './Components/NameList'
 import Filter from './Components/Filter'
@@ -8,13 +9,23 @@ import PersonForm from './Components/PersonForm';
 const App = () => {
   const [ persons, setPersons] = useState([
     { 
-      name: 'Arto Hellas', 
-      number: '0401234567'
+      name: '', 
+      number: ''
     }
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [searchName, setSearchName] = useState('')
+
+  const getDataHook = () =>{    
+  axios
+    .get('http://localhost:3001/persons')
+    .then(response => {
+      const phonebookData = response.data
+      setPersons(phonebookData)
+  })}
+
+  useEffect(getDataHook, [])
 
   const addName = (event) => {
     event.preventDefault()

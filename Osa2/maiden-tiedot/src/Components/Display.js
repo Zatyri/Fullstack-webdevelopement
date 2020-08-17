@@ -1,5 +1,6 @@
 import React from 'react'
 import DisplayLanguages from './DisplayLanguages'
+import Country from './Country'
 
 const Display = ({countries, filter}) => {
     
@@ -8,8 +9,8 @@ const Display = ({countries, filter}) => {
             const toDisplay = multipleResult()          
             return toDisplay                
         } else if(countries.length == 1 && !countries[0].name.includes('Too many')){           
-            const toDisplay = oneResult()
-            return toDisplay  
+            
+            return <Country country={countries} />
         } else {
             return countries.map(x => <p key={x.name}>{x.name}</p>)
         }
@@ -28,20 +29,6 @@ const Display = ({countries, filter}) => {
             </React.Fragment>
             )  
         return toReturn
-    }
-
-    const oneResult = () => {
-        const country = countries.map(x => 
-            <React.Fragment key={x.name}>
-                <h1 >{x.name}</h1>
-                <p>capital {x.capital}</p>
-                <p>population {x.population}</p>
-                <h1>languages</h1>
-                <DisplayLanguages languages={x.languages} />
-                <img alt='counry flag' src={x.flag} width='50'/>                    
-            </React.Fragment>
-    )
-      return country
     }
 
     return (

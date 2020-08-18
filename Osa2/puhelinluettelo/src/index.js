@@ -39,8 +39,8 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault()
     if(persons.find(person => person.name === newName)){
-      alert(`${newName} is already added to phonebook`)
-      return null
+     nameExcists()
+     return null
     }
     const nameToAdd = {
       name: newName,
@@ -49,6 +49,25 @@ const App = () => {
     setNewName('')
     setNewNumber('')
     addData(nameToAdd)
+  }
+
+  const nameExcists = () =>{
+    const modifyNumber = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+    if(!modifyNumber){
+      return null
+    }
+    const index = persons.findIndex(person => person.name === newName)
+    const idToUpdate = persons[index].id
+    const personToUpdate = persons[index]
+    const updatedPerson = {... personToUpdate, number: newNumber }
+
+    phoneBookService
+      .update(idToUpdate, updatedPerson)
+      .then(returnedPerson => {       
+        setPersons(persons.map(person => person.id !== idToUpdate ? person : returnedPerson))
+      })
+      setNewName('')
+      setNewNumber('')
   }
 
   const handleAddName = (event) => setNewName(event.target.value) 
@@ -67,9 +86,7 @@ const idToDelete = persons[index].id
 
     phoneBookService
       .remove(idToDelete)
-      .then(() => getDataHook()
-      )
-
+      .then(() => getDataHook())
   }
 
 

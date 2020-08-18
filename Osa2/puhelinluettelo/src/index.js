@@ -5,6 +5,7 @@ import Header from './Components/Header'
 import NameList from './Components/NameList'
 import Filter from './Components/Filter'
 import PersonForm from './Components/PersonForm';
+import phoneBookService from './services/phoneBook'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -17,32 +18,36 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [searchName, setSearchName] = useState('')
 
-  const getDataHook = () =>{    
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
-      const phonebookData = response.data
-      setPersons(phonebookData)
-  })}
-
+  const getDataHook = () => {
+    phoneBookService
+      .getAll()
+      .then(data => {
+        setPersons(data)
+      })
+  }
   useEffect(getDataHook, [])
+
+  const addData = (newPerson) => {
+    phoneBookService
+      .addNew(newPerson)
+      .then(updatedData => {
+        setPersons(persons.concat(updatedData)) 
+      })
+  }
 
   const addName = (event) => {
     event.preventDefault()
-    persons.filter((person) => {
-      if(person.name === newName){
-        alert(`${newName} is already added to phonebook`)
-      } else {
-        const nameToAdd = {
-          name: newName,
-          number: newNumber
-      }
-      setPersons(persons.concat(nameToAdd))
-      setNewName('')
-      setNewNumber('')
+    if(persons.find(person => person.name === newName)){
+      alert(`${newName} is already added to phonebook`)
+      return null
     }
-    return null
-    })   
+    const nameToAdd = {
+      name: newName,
+      number: newNumber
+    }
+    setNewName('')
+    setNewNumber('')
+    addData(nameToAdd)
   }
 
   const handleAddName = (event) => setNewName(event.target.value) 

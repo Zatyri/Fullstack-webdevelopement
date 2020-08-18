@@ -11,7 +11,8 @@ const App = () => {
   const [ persons, setPersons] = useState([
     { 
       name: '', 
-      number: ''
+      number: '',
+      id: ''
     }
   ]) 
   const [ newName, setNewName ] = useState('')
@@ -55,6 +56,22 @@ const App = () => {
   const handleFilterInput = (event) => {
     setSearchName(event.target.value)    
   }
+  const handleDeletePerson = (event) => {
+    const confirm = window.confirm(`Delete ${event.target.value}?`)
+    if(!confirm){
+      return null
+    }
+
+const index = persons.findIndex(person => person.name === event.target.value)
+const idToDelete = persons[index].id
+
+    phoneBookService
+      .remove(idToDelete)
+      .then(() => getDataHook()
+      )
+
+  }
+
 
   return (
     <div>
@@ -63,7 +80,7 @@ const App = () => {
       <Header header='add a new'/>
       <PersonForm addName={addName} newName={newName} handleAddName={handleAddName} newNumber={newNumber} handleAddNumber={handleAddNumber}/>
       <Header header='Numbers' />
-      <NameList persons={persons} search={searchName}/>
+      <NameList persons={persons} search={searchName} deletePerson={handleDeletePerson}/>
     </div>
   )
 

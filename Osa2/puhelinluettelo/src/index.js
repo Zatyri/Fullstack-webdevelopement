@@ -24,7 +24,7 @@ const App = () => {
   const getDataHook = () => {
     phoneBookService
       .getAll()
-      .then(data => {
+      .then(data => {       
         setPersons(data)
       })
   }
@@ -41,8 +41,9 @@ const App = () => {
           , 5000)
       })
       .catch(error => {
+        console.log(error.response.data);
         setError(true)
-        setMessage(`Failed to add name to the phonebook`)
+        setMessage(error.response.data.error)
         setTimeout(()=>{
           setMessage(null)
           setError(false)}
@@ -75,7 +76,7 @@ const App = () => {
     const index = persons.findIndex(person => person.name === newName)
     const idToUpdate = persons[index].id
     const personToUpdate = persons[index]
-    const updatedPerson = {... personToUpdate, number: newNumber }
+    const updatedPerson = {...personToUpdate, number: newNumber }
 
     phoneBookService
       .update(idToUpdate, updatedPerson)
